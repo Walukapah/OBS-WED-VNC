@@ -4,25 +4,22 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV DISPLAY=:1
 ENV HOME=/root
 
-Install required packages
-
+# Install required packages
 RUN apt update && apt install -y \
-obs-studio \
-xvfb \
-x11vnc \
-openbox \
-novnc \
-websockify \
-ca-certificates \
-fonts-dejavu \
-&& rm -rf /var/lib/apt/lists/*
+    obs-studio \
+    xvfb \
+    x11vnc \
+    openbox \
+    novnc \
+    websockify \
+    ca-certificates \
+    fonts-dejavu \
+    && rm -rf /var/lib/apt/lists/*
 
-noVNC default page
-
+# noVNC default page
 RUN ln -s /usr/share/novnc/vnc.html /usr/share/novnc/index.html
 
-Create startup script inside Dockerfile
-
+# Create startup script inside Dockerfile
 RUN cat << 'EOF' > /entrypoint.sh
 #!/bin/bash
 set -e
@@ -51,8 +48,7 @@ EOF
 
 RUN chmod +x /entrypoint.sh
 
-Koyeb requires fixed exposed port
-
+# Koyeb requires fixed exposed port
 EXPOSE 8080
 
 CMD ["/entrypoint.sh"]
